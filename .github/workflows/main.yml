@@ -9,7 +9,8 @@ on:
       - master
 
 jobs:
-  test:
+  build-deploy:
+    name: build and deploy spring-api
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +26,9 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-
-      - name: Run tests
-        run: |
-          mvn test && echo "Desplegado" || echo "Negado"
+      - name: build the docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          dockerfile: Dockerfile
+          push: false
