@@ -26,11 +26,9 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-      - name: Run docker-compose
-          uses: hoverkraft-tech/compose-action@v2.0.1
-          with:
-            compose-file: ".docker-compose.yml"
-
-            - name: Execute tests in the running services
-              run: |
-                docker-compose exec inventoryapp-app
+      - name: build the docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          dockerfile: Dockerfile
+          push: false
